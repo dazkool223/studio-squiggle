@@ -10,9 +10,12 @@ export const Portfolio = () => {
   const buttons = portfolioSections.map((section) => (
     <Button
       key={section.id}
-      className={`${section.color}`}
+      variant={"folder"}
+      className={`${section.color} flex-1`}
       onClick={() => setActiveSection(section.id - 1)}
-    ></Button>
+    >
+      {section.id === activeSection + 1 ? section.label : ""}
+    </Button>
   ));
   const section = (
     <section
@@ -20,9 +23,9 @@ export const Portfolio = () => {
     ></section>
   );
   return (
-    <>
-      <div className="flex gap-1">{buttons}</div>
+    <div className="overflow-x-hidden">
+      <div className="flex lg:ml-10">{buttons}</div>
       {section}
-    </>
+    </div>
   );
 };

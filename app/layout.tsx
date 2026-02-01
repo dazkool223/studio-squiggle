@@ -46,7 +46,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${chaloops.variable} antialiased`}>{children}</body>
+      <body className={`${chaloops.variable} antialiased sm:overflow-x-hidden`}>
+        {children}
+      </body>
     </html>
   );
 }
