@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { portfolioSections } from "./portfolio-data";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui";
 
 export const Portfolio = () => {
   const [activeSection, setActiveSection] = useState(0);
@@ -17,15 +17,14 @@ export const Portfolio = () => {
       {section.id === activeSection + 1 ? section.label : ""}
     </Button>
   ));
-  const section = (
-    <section
-      className={`h-50 w-full ${portfolioSections[activeSection].color}`}
-    ></section>
-  );
+
   return (
-    <div className="overflow-x-hidden">
-      <div className="flex lg:ml-10">{buttons}</div>
-      {section}
+    <div>
+      <div className="scalloped-box scalloped-bottom bg-portfolio-yellow min-h-20"></div>
+      <div className="flex mt-10 lg:ml-10">{buttons}</div>
+      <section
+        className={`h-50 w-full ${portfolioSections[activeSection].color}`}
+      ></section>
     </div>
   );
 };

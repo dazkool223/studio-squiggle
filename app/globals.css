@@ -22,7 +22,7 @@
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
+  --primary: rgba(34, 34, 34, 1);
   --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
@@ -88,7 +88,7 @@
 @theme inline {
   --font-sans: "Chaloops", "Geist Fallback";
   --font-mono: "Chaloops", "Geist Mono Fallback";
-  --font-serif: "Chaloops", "Georgia", serif;
+  --font-serif: "Poppins", "Georgia", serif;
   --color-portfolio-cream: var(--portfolio-cream);
   --color-portfolio-blue: var(--portfolio-blue);
   --color-portfolio-pink: var(--portfolio-pink);
@@ -149,4 +149,18 @@
 }
 .folder-tabs {
   clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%);
+}
+
+.scalloped-box {
+  --r: 30px; /* radius of the scallops */
+  --h: 14px; /* height of the ellipses, adjust for desired elongation */
+  --diffusion: 5%; /* controls the softness of the edge */
+}
+
+.scalloped-bottom {
+  --ellipse-width: calc(1.8 * var(--r));
+  mask: 
+    linear-gradient(#000 0 0) no-repeat 0% 0% / 100% calc(100% - 0.7 * var(--r)),
+    radial-gradient(ellipse var(--r) var(--h) at 50% 50%, #000 calc(100% - var(--diffusion)), transparent) 
+      0 100% / var(--ellipse-width) calc(2 * var(--h)) round;
 }

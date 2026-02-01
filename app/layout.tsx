@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import localFont from "next/font/local";
+import { Poppins } from "next/font/google";
 import "./globals.css";
 
 const chaloops = localFont({
@@ -34,6 +35,13 @@ const chaloops = localFont({
   display: "swap",
 });
 
+const poppins = Poppins({
+  subsets: ["latin"],
+  display: "swap", // Ensures text is visible while the font loads
+  variable: "--font-poppins", // Optional: for using with CSS variables or Tailwind
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"], // Specify all desired weights
+});
+
 export const metadata: Metadata = {
   title: "Studio Squiggle",
   description: "For the weird - By the weird",
@@ -46,7 +54,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${chaloops.variable} antialiased sm:overflow-x-hidden`}>
+      <body
+        className={`${chaloops.variable} ${poppins.variable} antialiased sm:overflow-x-hidden`}
+      >
         {children}
       </body>
     </html>
