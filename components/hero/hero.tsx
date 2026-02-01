@@ -7,7 +7,12 @@ export const Hero = () => {
   return (
     <div className="flex flex-col justify-center items-center bg-portfolio-yellow text-primary">
       <Image src={logo} alt="logo" className="h-15 mt-10" />
-      <Image src={hero} alt="hero" className="h-100 mt-10 mb-10" />
+      <Image
+        src={hero}
+        alt="hero"
+        className="h-100 mt-10 mb-10"
+        loading="eager"
+      />
       <div className="font-light text-4xl items-center text-center">
         <h1>For the Weird</h1>
         <h1 className="font-semibold">By the Weird</h1>

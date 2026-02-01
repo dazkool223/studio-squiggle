@@ -20,7 +20,7 @@ export const Portfolio = () => {
 
   return (
     <div>
-      <div className="scalloped-box scalloped-bottom bg-portfolio-yellow min-h-20"></div>
+      <div className="scalloped-box scalloped-bottom bg-portfolio-yellow min-h-21"></div>
       <div className="flex mt-10 lg:ml-10">{buttons}</div>
       <section
         className={`h-50 w-full ${portfolioSections[activeSection].color}`}
