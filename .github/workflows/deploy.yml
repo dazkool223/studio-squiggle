@@ -43,7 +43,8 @@ jobs:
 
       - name: Install dependencies
         run: bun install --frozen-lockfile
-
+      - name: mkdir out
+        run: mkdir out
       - name: Build with Next.js
         run: bun run build
 
