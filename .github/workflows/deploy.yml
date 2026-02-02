@@ -1,4 +1,4 @@
-name: Deploy Studio Squiggle to GitHub Pages
+name: build & deploy
 
 on:
   push:
@@ -45,7 +45,23 @@ jobs:
         run: bun install --frozen-lockfile
 
       - name: Build with Next.js
-        run: bun run build --verbose
+        run: bun run build
+        env:
+          NEXT_PUBLIC_BASE_PATH: ${{ steps.pages.outputs.base_path }}
+
+      - name: List build output
+        run: |
+          echo "Listing root directory:"
+          ls -la
+          echo "Checking for out directory:"
+          if [ -d "out" ]; then
+            echo "out directory exists"
+            ls -la out
+          else
+            echo "out directory does NOT exist"
+            echo "Checking .next directory:"
+            ls -la .next || echo ".next directory not found"
+          fi
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
