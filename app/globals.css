@@ -153,8 +153,8 @@
 
 .scalloped-box {
   --r: 30px; /* radius of the scallops */
-  --h: 14px; /* height of the ellipses, adjust for desired elongation */
-  --diffusion: 5%; /* controls the softness of the edge */
+  --h: 42px; /* height of the ellipses, adjust for desired elongation */
+  --diffusion: 0%; /* controls the softness of the edge */
 }
 
 .scalloped-bottom {

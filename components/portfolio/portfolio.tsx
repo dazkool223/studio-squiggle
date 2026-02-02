@@ -19,12 +19,15 @@ export const Portfolio = () => {
   ));
 
   return (
-    <div>
-      <div className="scalloped-box scalloped-bottom bg-portfolio-yellow min-h-21"></div>
+    <section className="flex flex-col">
+      <h2 className="font-light text-4xl text-center">Our Work</h2>
+      <h3 className="font-serif font-light text-xl text-center">
+        Done. Delivered. Displayed.
+      </h3>
       <div className="flex mt-10 lg:ml-10">{buttons}</div>
       <section
         className={`h-50 w-full ${portfolioSections[activeSection].color}`}
       ></section>
-    </div>
+    </section>
   );
 };
