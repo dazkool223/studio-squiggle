@@ -19,7 +19,7 @@ export const Portfolio = () => {
   ));
 
   return (
-    <section className="flex flex-col">
+    <section className="flex flex-col mt-10">
       <h2 className="font-light text-4xl text-center">Our Work</h2>
       <h3 className="font-serif font-light text-xl text-center">
         Done. Delivered. Displayed.
