@@ -1,20 +1,26 @@
 "use client";
 
 import { useState } from "react";
-import { portfolioSections } from "./portfolio-data";
+import { portfolioSections, PortfolioSection } from "./portfolio-data";
 import { Button } from "@/components/ui";
+import { Project } from "./project";
 
 export const Portfolio = () => {
   const [activeSection, setActiveSection] = useState(0);
+
+  const isActiveSection = (section: PortfolioSection) => {
+    return section.id === activeSection + 1;
+  };
 
   const buttons = portfolioSections.map((section) => (
     <Button
       key={section.id}
       variant={"folder"}
-      className={`${section.color} flex-1`}
+      // do something here which increase the height of the selected section
+      className={`${section.color} flex-1 ${isActiveSection(section) ? "" : ""}`}
       onClick={() => setActiveSection(section.id - 1)}
     >
-      {section.id === activeSection + 1 ? section.label : ""}
+      {isActiveSection(section) ? section.label : ""}
     </Button>
   ));
 
@@ -26,8 +32,14 @@ export const Portfolio = () => {
       </h3>
       <div className="flex mt-10 lg:ml-10">{buttons}</div>
       <section
-        className={`h-50 w-full ${portfolioSections[activeSection].color}`}
-      ></section>
+        className={`${portfolioSections[activeSection].color} container mx-auto px-4 py-8`}
+      >
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {portfolioSections[activeSection].projects.map((project, index) => (
+            <Project key={index} {...project} />
+          ))}
+        </div>
+      </section>
     </section>
   );
 };
