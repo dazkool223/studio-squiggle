@@ -1,6 +1,7 @@
 export type SquigglyFriend = {
   name: string;
   image: string;
+  order: string;
   attributes: SquigglyFriendAttribute[];
 };
 export type SquigglyFriendAttribute = {
@@ -27,6 +28,7 @@ export const squigglyFriends: SquigglyFriend[] = [
   {
     name: "fork",
     image: "squiggly-friends/friend-1.svg",
+    order: "",
     attributes: [
       {
         key: "species",
@@ -43,6 +45,29 @@ export const squigglyFriends: SquigglyFriend[] = [
       {
         key: "state of being",
         value: "simply existing",
+      },
+    ],
+  },
+  {
+    name: "blaze",
+    image: "squiggly-friends/friend-2.svg",
+    order: "order-first",
+    attributes: [
+      {
+        key: "species",
+        value: "hot head",
+      },
+      {
+        key: "mood",
+        value: "slightly angry (always)",
+      },
+      {
+        key: "reason",
+        value: "unclear",
+      },
+      {
+        key: "state of being",
+        value: "overheating",
       },
     ],
   },

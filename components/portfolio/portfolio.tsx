@@ -12,12 +12,11 @@ export const Portfolio = () => {
     return section.id === activeSection + 1;
   };
 
-  const buttons = portfolioSections.map((section) => (
+  const buttons = portfolioSections.map((section, index) => (
     <Button
       key={section.id}
       variant={"folder"}
-      // do something here which increase the height of the selected section
-      className={`${section.color} flex-1 ${isActiveSection(section) ? "" : ""}`}
+      className={`${section.color} flex-1 transition-transform duration-500 ${isActiveSection(section) ? "scale-110 z-5 px-6" : `scale-100 z-${5 - index + 1}`} `}
       onClick={() => setActiveSection(section.id - 1)}
     >
       {isActiveSection(section) ? section.label : ""}
