@@ -1,10 +1,11 @@
 export type SquigglyFriend = {
   name: string;
   image: string;
-  species: string;
-  mood: string;
-  funFact: string;
-  stateOfBeing: string;
+  attributes: SquigglyFriendAttribute[];
+};
+export type SquigglyFriendAttribute = {
+  key: string;
+  value: string;
 };
 export const aboutUsInformation = {
   src: "about-us/about-us-text.svg",
@@ -26,9 +27,23 @@ export const squigglyFriends: SquigglyFriend[] = [
   {
     name: "fork",
     image: "squiggly-friends/friend-1.svg",
-    species: "human (probably)",
-    mood: "tired but okay",
-    funFact: "he is not a fox",
-    stateOfBeing: "simply existing",
+    attributes: [
+      {
+        key: "species",
+        value: "human (probably)",
+      },
+      {
+        key: "mood",
+        value: "tired but okay",
+      },
+      {
+        key: "fun fact",
+        value: "he is not a fox",
+      },
+      {
+        key: "state of being",
+        value: "simply existing",
+      },
+    ],
   },
 ];
