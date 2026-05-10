@@ -2,6 +2,7 @@ import { AboutUs } from "@/components/about-us";
 import { Hero } from "@/components/hero";
 import { Portfolio } from "@/components/portfolio";
 import { HowWeRollCarousel } from "@/components/roll/how-we-roll";
+import Support from "@/components/support/support";
 
 export default function Home() {
   return (
@@ -10,6 +11,7 @@ export default function Home() {
       <HowWeRollCarousel />
       <Portfolio />
       <AboutUs />
+      <Support />
     </main>
   );
 }
