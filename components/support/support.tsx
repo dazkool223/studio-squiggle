@@ -13,12 +13,13 @@ const SERVICES = [
   "Illustration",
 ] as const;
 
-// Brand palette from globals.css
+// Brand palette from globals.css. Full literal class names — Tailwind only
+// generates classes it can see verbatim in the source.
 const THEMES = [
-  { bg: "rgba(131, 188, 255, 1)", fg: "#0b1220" }, // portfolio-blue
-  { bg: "rgba(255, 83, 124, 1)", fg: "#ffffff" }, // portfolio-pink
-  { bg: "#181818", fg: "#ffffff" },
-  { bg: "rgba(255, 211, 53, 1)", fg: "#1a1300" }, // portfolio-yellow
+  { bg: "bg-portfolio-blue", fg: "text-[#0b1220]" },
+  { bg: "bg-portfolio-pink", fg: "text-white" },
+  { bg: "bg-foreground", fg: "text-white" },
+  { bg: "bg-portfolio-yellow", fg: "text-[#1a1300]" },
 ] as const;
 
 export default function Services() {
@@ -49,13 +50,14 @@ export default function Services() {
 
   return (
     <div
+      id="services"
       ref={wrapperRef}
       className="relative w-full mt-16 md:mt-24"
       style={{ height: `${SERVICES.length * 100}vh` }}
       aria-label="Creative services"
     >
       <section
-        className={`bg-${theme.bg} text-[${theme.fg}] sticky top-0 left-0 w-full h-screen overflow-hidden flex items-center transition-colors duration-700 ease-in-out`}
+        className={`${theme.bg} ${theme.fg} sticky top-0 left-0 w-full h-screen overflow-hidden flex items-center transition-colors duration-700 ease-in-out`}
       >
         <div className="relative z-10 mx-auto w-full max-w-7xl px-6 md:px-10 lg:px-16 flex items-center gap-4 md:gap-8">
           {/* Intro copy */}

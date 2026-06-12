@@ -49,31 +49,45 @@ export const Portfolio = () => {
     <Button
       key={section.id}
       variant={"folder"}
-      style={{ zIndex: isActiveSection(section) ? 6 : 5 - index }}
-      className={`${section.color} flex-1 min-w-0 transition-transform duration-500 cursor-pointer ${
-        isActiveSection(section) ? "scale-110 px-4 md:px-6" : "scale-100"
+      style={{ zIndex: isActiveSection(section) ? 30 : 20 - index }}
+      className={`${section.color} h-auto px-1 sm:px-3 md:px-6 pt-2 md:pt-3 pb-4 md:pb-7 origin-bottom transition-transform duration-500 cursor-pointer ${
+        isActiveSection(section) ? "scale-110" : "scale-100 hover:scale-105"
       }`}
       onClick={() => setActiveSection(section.id - 1)}
     >
-      <span className="truncate text-xs md:text-sm">
-        {isActiveSection(section) ? section.label : ""}
+      <span className="text-[11px] sm:text-sm md:text-lg font-light px-1">
+        {section.label}
       </span>
     </Button>
   ));
 
+  // Non-active folder sheets peek out as thin strips under the tab row,
+  // matching the layered-folders look in the Figma (Desktop-22/23).
+  const strips = portfolioSections
+    .filter((section) => !isActiveSection(section))
+    .sort((a, b) => b.id - a.id)
+    .map((section) => (
+      <div
+        key={section.id}
+        className={`${section.color} h-1.5 md:h-2 w-full transition-colors duration-300`}
+      />
+    ));
+
   return (
-    <section ref={scope} className="flex flex-col mt-16 md:mt-24">
-      <div className="portfolio-heading">
-        <h2 className="font-light text-4xl md:text-5xl text-center">
-          Our Work
-        </h2>
-        <h3 className="font-serif font-light text-xl text-center mt-1">
-          Done. Delivered. Displayed.
-        </h3>
-      </div>
-      <div className="flex mt-10 px-4 md:px-10 max-w-5xl w-full mx-auto">
+    <section
+      id="work"
+      ref={scope}
+      className="flex flex-col mt-16 md:mt-24 scroll-mt-10"
+    >
+      <h2 className="portfolio-heading font-light text-4xl md:text-5xl px-6 md:px-12">
+        Our Work
+      </h2>
+      {/* Tab row overlaps the strips below so each folder tab appears to
+          belong to its sheet in the stack. */}
+      <div className="relative z-10 flex items-end justify-between mt-8 px-2 md:px-8 -mb-[18px] md:-mb-[24px]">
         {buttons}
       </div>
+      <div>{strips}</div>
       <section
         className={`${portfolioSections[activeSection].color} transition-colors duration-500 w-full`}
       >

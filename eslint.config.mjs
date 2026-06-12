@@ -12,6 +12,9 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Tooling directories (Claude Code worktrees, GitNexus index):
+    ".claude/**",
+    ".gitnexus/**",
   ]),
 ]);
 

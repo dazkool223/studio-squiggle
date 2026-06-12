@@ -53,7 +53,7 @@ export const HowWeRollCarousel = () => {
   );
 
   return (
-    <section ref={scope} className="flex flex-col items-center">
+    <section id="roll" ref={scope} className="flex flex-col items-center scroll-mt-10">
       <h2 className="mt-10 font-light text-4xl md:text-5xl text-center">
         How We Roll
       </h2>

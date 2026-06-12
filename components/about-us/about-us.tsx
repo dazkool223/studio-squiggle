@@ -95,7 +95,7 @@ export const AboutUs = () => {
   );
 
   return (
-    <div ref={scope}>
+    <div id="about" ref={scope} className="scroll-mt-10">
       <section className="mt-16 md:mt-24">
         <Image
           src={aboutUsInformation.src}
