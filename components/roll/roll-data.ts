@@ -1,28 +1,33 @@
 export interface Roll {
   id: number;
-  content: string;
+  mobile: string;
+  desktop: string;
   alt: string;
 }
 
-export const rollSectionsMobile: Roll[] = [
+export const rollSections: Roll[] = [
   {
     id: 1,
-    content: "carousel/1-discover-mobile.svg",
+    mobile: "/carousel/1-discover-mobile.svg",
+    desktop: "/carousel/1-discover-desktop.svg",
     alt: "Discover",
   },
   {
     id: 2,
-    content: "carousel/2-direction-mobile.svg",
+    mobile: "/carousel/2-direction-mobile.svg",
+    desktop: "/carousel/2-direction-desktop.svg",
     alt: "Direction",
   },
   {
     id: 3,
-    content: "carousel/3-create-mobile.svg",
+    mobile: "/carousel/3-create-mobile.svg",
+    desktop: "/carousel/3-create-desktop.svg",
     alt: "Create",
   },
   {
     id: 4,
-    content: "carousel/4-deliver-mobile.svg",
+    mobile: "/carousel/4-deliver-mobile.svg",
+    desktop: "/carousel/4-deliver-desktop.svg",
     alt: "Deliver",
   },
 ];

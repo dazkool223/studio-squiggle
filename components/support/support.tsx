@@ -1,6 +1,7 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { ArrowRight } from "lucide-react";
+import { ScrollTrigger, useGSAP } from "@/lib/gsap";
 
 const SERVICES = [
   "Brand Strategy",
@@ -12,49 +13,44 @@ const SERVICES = [
   "Illustration",
 ] as const;
 
+// Brand palette from globals.css
 const THEMES = [
-  { bg: "#84B6F4", fg: "#0b1220" },
-  { bg: "#FF4F87", fg: "#ffffff" },
+  { bg: "rgba(131, 188, 255, 1)", fg: "#0b1220" }, // portfolio-blue
+  { bg: "rgba(255, 83, 124, 1)", fg: "#ffffff" }, // portfolio-pink
   { bg: "#181818", fg: "#ffffff" },
-  { bg: "#F4CD31", fg: "#1a1300" },
+  { bg: "rgba(255, 211, 53, 1)", fg: "#1a1300" }, // portfolio-yellow
 ] as const;
 
-export default function HeroServices() {
+export default function Services() {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
 
-  // Scroll-driven active index. The wrapper is tall (n * 100vh) and the
-  // inner section is sticky — scroll position within the wrapper picks
-  // the active service.
-  useEffect(() => {
-    const onScroll = () => {
-      const el = wrapperRef.current;
-      if (!el) return;
-      const rect = el.getBoundingClientRect();
-      const total = el.offsetHeight - window.innerHeight;
-      if (total <= 0) return;
-      const progress = Math.min(1, Math.max(0, -rect.top / total));
-      const idx = Math.min(
-        SERVICES.length - 1,
-        Math.floor(progress * SERVICES.length),
-      );
-      setActive(idx);
-    };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-    };
-  }, []);
+  // Scroll-driven active index: the wrapper is n * 100vh tall and the inner
+  // section is sticky, so progress through the wrapper picks the service.
+  useGSAP(
+    () => {
+      ScrollTrigger.create({
+        trigger: wrapperRef.current,
+        start: "top top",
+        end: "bottom bottom",
+        onUpdate: (self) => {
+          const idx = Math.min(
+            SERVICES.length - 1,
+            Math.floor(self.progress * SERVICES.length),
+          );
+          setActive(idx);
+        },
+      });
+    },
+    { scope: wrapperRef },
+  );
 
   const theme = THEMES[active % THEMES.length];
 
   return (
     <div
       ref={wrapperRef}
-      className="relative w-full"
+      className="relative w-full mt-16 md:mt-24"
       style={{ height: `${SERVICES.length * 100}vh` }}
       aria-label="Creative services"
     >
@@ -62,41 +58,36 @@ export default function HeroServices() {
         className="sticky top-0 left-0 w-full h-screen overflow-hidden flex items-center transition-colors duration-700 ease-in-out"
         style={{ backgroundColor: theme.bg, color: theme.fg }}
       >
-        <div
-          className="relative z-10 mx-auto w-full max-w-7xl px-6 md:px-10 lg:px-16
-                     grid items-center
-                     grid-cols-2
-                     md:grid-cols-3
-                     lg:grid-cols-3"
-        >
+        <div className="relative z-10 mx-auto w-full max-w-7xl px-6 md:px-10 lg:px-16 flex items-center gap-4 md:gap-8">
           {/* Intro copy */}
-          <p className="col-span-2 md:col-span-1 lg:col-span-1 max-w-35 md:max-w-55 text-sm md:text-base lg:text-lg font-medium leading-tight select-none">
+          <p className="shrink-0 max-w-35 md:max-w-55 text-sm md:text-base lg:text-lg font-medium leading-tight select-none">
             We bring ideas
             <br />
             to life through
           </p>
 
           {/* Arrow */}
-          <div className="flex ">
-            <ArrowRight
-              aria-hidden="true"
-              strokeWidth={1.5}
-              className="h-6 w-6 md:h-9 md:w-9 lg:h-12 lg:w-12"
-            />
-          </div>
+          <ArrowRight
+            aria-hidden="true"
+            strokeWidth={1.5}
+            className="shrink-0 h-6 w-6 md:h-9 md:w-9 lg:h-12 lg:w-12"
+          />
 
-          {/* Diagonal infinite-carousel typography */}
           {/* Radial spinning-wheel typography */}
-          <div className="relative h-[80vh] -ml-[16em] self-stretch">
+          <div className="relative flex-1 h-[80vh] self-center">
             <h2 className="sr-only" aria-live="polite">
               {SERVICES[active]}
             </h2>
 
-            {/* Wheel hub anchored at the arrow's vertical center, words radiate to the right */}
+            {/* Wheel hub sits 4.5em left of this column so the words land
+                right after the arrow regardless of viewport size. */}
             <ul
               aria-hidden="true"
-              className="absolute left-0 top-1/2 text-white"
-              style={{ fontSize: "clamp(32px, 6.4vw, 76px)" }}
+              className="absolute top-1/2"
+              style={{
+                left: "-4.5em",
+                fontSize: "clamp(26px, 6.4vw, 76px)",
+              }}
             >
               {[
                 ...SERVICES,
@@ -104,14 +95,10 @@ export default function HeroServices() {
                 ...SERVICES,
                 ...SERVICES.toSpliced(3),
               ].map((label, i) => {
-                const n = SERVICES.length;
-                // shortest signed distance on the ring → infinite illusion
-                let d = i - active;
-                // d = ((d % n) + n) % n;
-                // if (d > n / 2) d -= n;
+                // signed distance from the active spoke
+                const d = i - active;
                 const abs = Math.abs(d);
 
-                // Spoke angle. Negative d → above (counter-clockwise tilt up).
                 const STEP = 15; // degrees between spokes
                 const angle = d * STEP;
 
@@ -133,11 +120,9 @@ export default function HeroServices() {
                     key={i}
                     className="absolute left-0 top-0 whitespace-nowrap leading-none font-black tracking-tight transition-all duration-700 ease-out will-change-transform select-none"
                     style={{
-                      // Pivot at the left edge (wheel hub). Push slightly out from
-                      // the hub so words don't overlap at the center, then rotate.
+                      // Pivot at the wheel hub, push out past the inner
+                      // radius so words sit in the donut band.
                       transformOrigin: "0% 50%",
-                      // Donut: rotate around hub, then push out past the inner
-                      // radius so text sits in the donut band (inner → outer).
                       transform: `translateY(-50%) rotate(${angle}deg) translateX(4.5em)`,
                       opacity,
                       filter: `blur(${blur}px)`,

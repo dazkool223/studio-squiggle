@@ -112,8 +112,39 @@
   * {
     @apply border-border outline-ring/50;
   }
+  html {
+    scroll-behavior: smooth;
+  }
   body {
     @apply bg-background text-foreground;
+    overflow-x: hidden;
+  }
+  ::selection {
+    background: var(--portfolio-yellow);
+    color: var(--foreground);
+  }
+}
+
+@keyframes wiggle {
+  0%,
+  100% {
+    transform: rotate(-2deg);
+  }
+  50% {
+    transform: rotate(2deg);
+  }
+}
+
+.wiggle-on-hover:hover {
+  animation: wiggle 0.3s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .wiggle-on-hover:hover {
+    animation: none;
   }
 }
 .folder-tabs {
