@@ -19,6 +19,7 @@ const THEMES = [
   { bg: "rgba(255, 83, 124, 1)", fg: "#ffffff" }, // portfolio-pink
   { bg: "#181818", fg: "#ffffff" },
   { bg: "rgba(255, 211, 53, 1)", fg: "#1a1300" }, // portfolio-yellow
+
 ] as const;
 
 export default function Services() {
@@ -55,8 +56,7 @@ export default function Services() {
       aria-label="Creative services"
     >
       <section
-        className="sticky top-0 left-0 w-full h-screen overflow-hidden flex items-center transition-colors duration-700 ease-in-out"
-        style={{ backgroundColor: theme.bg, color: theme.fg }}
+        className={`bg-${theme.bg} text-[${theme.fg}] sticky top-0 left-0 w-full h-screen overflow-hidden flex items-center transition-colors duration-700 ease-in-out`}
       >
         <div className="relative z-10 mx-auto w-full max-w-7xl px-6 md:px-10 lg:px-16 flex items-center gap-4 md:gap-8">
           {/* Intro copy */}

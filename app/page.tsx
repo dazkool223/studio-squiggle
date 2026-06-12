@@ -14,6 +14,8 @@ export default function Home() {
       <AboutUs />
       <Services />
       <Footer />
+      <Support />
+      <AboutUs />
     </main>
   );
 }
