@@ -13,10 +13,10 @@ const SERVICES = [
 ] as const;
 
 const THEMES = [
-  { bg: "#84B6F4", fg: "#0b1220" },
-  { bg: "#FF4F87", fg: "#ffffff" },
-  { bg: "#181818", fg: "#ffffff" },
-  { bg: "#F4CD31", fg: "#1a1300" },
+  { bg: "portfolio-blue", fg: "#0b1220" },
+  { bg: "portfolio-yellow", fg: "#ffffff" },
+  { bg: "portfolio-pink", fg: "#ffffff" },
+  { bg: "portfolio-purple", fg: "#1a1300" },
 ] as const;
 
 export default function HeroServices() {
@@ -59,8 +59,7 @@ export default function HeroServices() {
       aria-label="Creative services"
     >
       <section
-        className="sticky top-0 left-0 w-full h-screen overflow-hidden flex items-center transition-colors duration-700 ease-in-out"
-        style={{ backgroundColor: theme.bg, color: theme.fg }}
+        className={`bg-${theme.bg} text-[${theme.fg}] sticky top-0 left-0 w-full h-screen overflow-hidden flex items-center transition-colors duration-700 ease-in-out`}
       >
         <div
           className="relative z-10 mx-auto w-full max-w-7xl px-6 md:px-10 lg:px-16

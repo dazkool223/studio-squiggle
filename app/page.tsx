@@ -10,8 +10,8 @@ export default function Home() {
       <Hero />
       <HowWeRollCarousel />
       <Portfolio />
-      <AboutUs />
       <Support />
+      <AboutUs />
     </main>
   );
 }
