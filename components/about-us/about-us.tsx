@@ -105,42 +105,40 @@ export const AboutUs = () => {
           className="about-title w-full max-w-md md:max-w-xl mx-auto px-6"
         />
         <div className="grid grid-cols-1 md:grid-cols-2 mt-10 max-w-6xl mx-auto items-center">
-          <div className="about-collage relative flex justify-center items-center py-10">
-            <div className="grid grid-cols-2 grid-rows-2 gap-4 max-w-100">
-              <div className="about-polaroid-1 translate-x-10 translate-y-5 -rotate-6 max-w-50">
-                <Polaroid image={coverImage1.src} alt={coverImage1.alt} />
-              </div>
-              <div>
-                <Image
-                  src={arrowPink}
-                  height={100}
-                  width={100}
-                  alt=""
-                  aria-hidden
-                  className="about-arrow absolute rotate-12 w-20 h-auto top-0 -translate-x-5 translate-y-15"
-                />
-                <p className="absolute font-light text-xl -rotate-6 translate-y-11 translate-x-15">
-                  This is Sayee
-                </p>
-              </div>
-              <div className="flex flex-col items-center justify-center font-light">
-                <p className="rotate-1">Visual Storyteller</p>
-                <p className="rotate-1">Illustrator</p>
-                <p className="-rotate-1">Graphic Designer</p>
-                <p className="rotate-1">UI/UX Designer</p>
-              </div>
-              <Image
-                src={arrowBlue}
-                height={100}
-                width={100}
-                alt=""
-                aria-hidden
-                className="about-arrow absolute bottom-0 z-5 w-20 h-auto translate-x-30 -translate-y-10"
-              />
-              <div className="about-polaroid-2 rotate-6 max-w-50 -translate-y-15 -translate-x-7">
-                <Polaroid image={coverImage2.src} alt={coverImage2.alt} />
-              </div>
+          {/* Scrapbook collage: percentage-positioned inside a square so the
+              composition holds together at every viewport width. */}
+          <div className="about-collage relative w-full max-w-sm md:max-w-md mx-auto aspect-square my-6 px-2">
+            <div className="about-polaroid-1 absolute left-[7%] top-0 w-[42%] -rotate-6">
+              <Polaroid image={coverImage1.src} alt={coverImage1.alt} />
             </div>
+            <p className="absolute right-[4%] top-[5%] -rotate-6 font-light text-xl md:text-2xl whitespace-nowrap">
+              This is Sayee
+            </p>
+            <Image
+              src={arrowPink}
+              height={100}
+              width={100}
+              alt=""
+              aria-hidden
+              className="about-arrow absolute left-[44%] top-[8%] w-[16%] h-auto rotate-12"
+            />
+            <div className="about-polaroid-2 absolute right-[2%] top-[34%] w-[44%] rotate-6 z-10">
+              <Polaroid image={coverImage2.src} alt={coverImage2.alt} />
+            </div>
+            <div className="absolute left-[4%] bottom-[6%] w-[40%] flex flex-col items-center font-light text-base md:text-lg leading-snug">
+              <p className="rotate-1">Visual Storyteller</p>
+              <p className="rotate-1">Illustrator</p>
+              <p className="-rotate-1">Graphic Designer</p>
+              <p className="rotate-1">UI/UX Designer</p>
+            </div>
+            <Image
+              src={arrowBlue}
+              height={100}
+              width={100}
+              alt=""
+              aria-hidden
+              className="about-arrow absolute left-[45%] bottom-[8%] w-[18%] h-auto z-20"
+            />
           </div>
           <div className="about-bio m-10 text-lg md:text-xl font-serif font-light flex flex-col gap-5">
             <p>

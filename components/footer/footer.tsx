@@ -15,8 +15,8 @@ const MARQUEE_ITEMS = [
   "Illustration",
 ];
 
-// TODO: replace with the studio's real handles / email
-const CONTACT_EMAIL = "hello@studiosquiggle.com";
+// From the "Let's Connect" postcard in the Figma
+const CONTACT_EMAIL = "its.squigglestudio@gmail.com";
 
 export const Footer = () => {
   const scope = useRef<HTMLElement>(null);
@@ -115,6 +115,9 @@ export const Footer = () => {
       {/* Bottom bar */}
       <div className="border-t border-portfolio-cream/20 py-6 px-6 flex flex-col md:flex-row items-center justify-between gap-3 max-w-6xl mx-auto">
         <p className="text-2xl font-light">Studio.Squiggle</p>
+        <p className="font-serif font-light text-xs text-portfolio-cream/60">
+          {CONTACT_EMAIL} · Pune, Maharashtra
+        </p>
         <p className="font-serif font-light text-xs text-portfolio-cream/60">
           For the Weird — By the Weird © {new Date().getFullYear()}
         </p>

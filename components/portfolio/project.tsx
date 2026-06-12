@@ -1,30 +1,36 @@
 import Image from "next/image";
 import { Project as ProjectType } from "./portfolio-data";
 
-export const Project = (props: ProjectType) => {
-  const { image, alt, title, description } = props;
-  return (
-    <div
-      className={`relative w-full h-72 md:h-96 overflow-hidden rounded-xl cursor-pointer group`}
-    >
-      {/* Background Image */}
-      <Image
-        src={image}
-        alt={alt}
-        fill
-        className="object-cover transition-transform duration-300 group-hover:scale-110"
-        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-      />
+interface ProjectProps {
+  project: ProjectType;
+  onOpen: () => void;
+}
 
-      {/* Overlay: title always visible, description revealed on hover */}
-      <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/90 via-black/60 to-transparent flex flex-col justify-end p-6 md:p-8 pt-16">
-        <h3 className="text-white text-xl md:text-2xl font-bold drop-shadow-lg">
-          {title}
-        </h3>
-        <p className="text-white/90 font-serif text-sm md:text-base leading-relaxed drop-shadow-md max-h-0 opacity-0 group-hover:max-h-40 group-hover:opacity-100 group-hover:mt-3 transition-all duration-300 overflow-hidden">
-          {description}
-        </p>
+// Card per the Figma Our Work frames: image on top, title and a short
+// blurb below it. Clicking anywhere opens the project detail section.
+export const Project = ({ project, onOpen }: ProjectProps) => {
+  const { image, alt, title, description } = project;
+  return (
+    <button
+      type="button"
+      onClick={onOpen}
+      className="group w-full text-left cursor-pointer"
+    >
+      <div className="relative w-full aspect-[4/3] overflow-hidden rounded-xl">
+        <Image
+          src={image}
+          alt={alt}
+          fill
+          className="object-cover transition-transform duration-300 group-hover:scale-105"
+          sizes="(max-width: 768px) 100vw, 50vw"
+        />
       </div>
-    </div>
+      <h3 className="text-white font-bold text-lg md:text-xl mt-3 drop-shadow-sm">
+        {title}
+      </h3>
+      <p className="text-white/85 font-serif font-light text-xs md:text-sm mt-1">
+        {description}
+      </p>
+    </button>
   );
 };
