@@ -1,8 +1,10 @@
 import { AboutUs } from "@/components/about-us";
+import { Footer } from "@/components/footer";
 import { Hero } from "@/components/hero";
 import { Portfolio } from "@/components/portfolio";
 import { HowWeRollCarousel } from "@/components/roll/how-we-roll";
 import Support from "@/components/support/support";
+import Services from "@/components/support/support";
 
 export default function Home() {
   return (
@@ -12,6 +14,8 @@ export default function Home() {
       <Portfolio />
       <Support />
       <AboutUs />
+      <Services />
+      <Footer />
     </main>
   );
 }

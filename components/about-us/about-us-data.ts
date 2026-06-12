@@ -1,7 +1,7 @@
 export type SquigglyFriend = {
   name: string;
   image: string;
-  order: string;
+  reverse: boolean;
   attributes: SquigglyFriendAttribute[];
 };
 export type SquigglyFriendAttribute = {
@@ -9,26 +9,26 @@ export type SquigglyFriendAttribute = {
   value: string;
 };
 export const aboutUsInformation = {
-  src: "about-us/about-us-text.svg",
+  src: "/about-us/about-us-text.svg",
   alt: "About Us",
 };
 export const coverImage1 = {
-  src: "about-us/sayee-1.jpg",
+  src: "/about-us/sayee-1.jpg",
   alt: "Profile Photo 1",
 };
 export const coverImage2 = {
-  src: "about-us/sayee-2.jpg",
+  src: "/about-us/sayee-2.jpg",
   alt: "Profile Photo 2",
 };
 
-export const arrowPink = "about-us/arrow-pink.svg";
-export const arrowBlue = "about-us/arrow-blue.svg";
+export const arrowPink = "/about-us/arrow-pink.svg";
+export const arrowBlue = "/about-us/arrow-blue.svg";
 
 export const squigglyFriends: SquigglyFriend[] = [
   {
     name: "fork",
-    image: "squiggly-friends/friend-1.svg",
-    order: "",
+    image: "/squiggly-friends/friend-1.svg",
+    reverse: false,
     attributes: [
       {
         key: "species",
@@ -50,8 +50,8 @@ export const squigglyFriends: SquigglyFriend[] = [
   },
   {
     name: "blaze",
-    image: "squiggly-friends/friend-2.svg",
-    order: "order-first",
+    image: "/squiggly-friends/friend-2.svg",
+    reverse: true,
     attributes: [
       {
         key: "species",

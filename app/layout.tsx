@@ -55,7 +55,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${chaloops.variable} ${poppins.variable} antialiased sm:overflow-x-hidden`}
+        className={`${chaloops.variable} ${poppins.variable} antialiased overflow-x-hidden`}
       >
         {children}
       </body>

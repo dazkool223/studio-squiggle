@@ -24,16 +24,16 @@ export const portfolioSections: PortfolioSection[] = [
         title: "Brand Identity System",
         description:
           "A comprehensive visual identity for a modern tech startup, including logo, color palette, and guidelines.",
-        image: "projects/sample-project-image.svg",
-        alt: "",
+        image: "/projects/sample-project-image.svg",
+        alt: "Brand identity project preview",
       },
       {
-        id: "vd-1",
+        id: "vd-2",
         title: "Brand Identity System",
         description:
           "A comprehensive visual identity for a modern tech startup, including logo, color palette, and guidelines.",
-        image: "projects/sample-project-image.svg",
-        alt: "",
+        image: "/projects/sample-project-image.svg",
+        alt: "Brand identity project preview",
       },
     ],
   },
@@ -43,20 +43,20 @@ export const portfolioSections: PortfolioSection[] = [
     color: "bg-portfolio-pink",
     projects: [
       {
-        id: "vd-1",
+        id: "cd-1",
         title: "Brand Identity System",
         description:
           "A comprehensive visual identity for a modern tech startup, including logo, color palette, and guidelines.",
-        image: "projects/sample-project-image.svg",
-        alt: "",
+        image: "/projects/sample-project-image.svg",
+        alt: "Creative design project preview",
       },
       {
-        id: "vd-1",
+        id: "cd-2",
         title: "Brand Identity System",
         description:
           "A comprehensive visual identity for a modern tech startup, including logo, color palette, and guidelines.",
-        image: "projects/sample-project-image.svg",
-        alt: "",
+        image: "/projects/sample-project-image.svg",
+        alt: "Creative design project preview",
       },
     ],
   },
@@ -66,20 +66,20 @@ export const portfolioSections: PortfolioSection[] = [
     color: "bg-portfolio-yellow",
     projects: [
       {
-        id: "vd-1",
+        id: "ux-1",
         title: "Brand Identity System",
         description:
           "A comprehensive visual identity for a modern tech startup, including logo, color palette, and guidelines.",
-        image: "projects/sample-project-image.svg",
-        alt: "",
+        image: "/projects/sample-project-image.svg",
+        alt: "UI/UX project preview",
       },
       {
-        id: "vd-1",
+        id: "ux-2",
         title: "Brand Identity System",
         description:
           "A comprehensive visual identity for a modern tech startup, including logo, color palette, and guidelines.",
-        image: "projects/sample-project-image.svg",
-        alt: "",
+        image: "/projects/sample-project-image.svg",
+        alt: "UI/UX project preview",
       },
     ],
   },
@@ -89,20 +89,20 @@ export const portfolioSections: PortfolioSection[] = [
     color: "bg-portfolio-purple",
     projects: [
       {
-        id: "vd-1",
+        id: "mc-1",
         title: "Brand Identity System",
         description:
           "A comprehensive visual identity for a modern tech startup, including logo, color palette, and guidelines.",
-        image: "projects/sample-project-image.svg",
-        alt: "",
+        image: "/projects/sample-project-image.svg",
+        alt: "Media and content project preview",
       },
       {
-        id: "vd-1",
+        id: "mc-2",
         title: "Brand Identity System",
         description:
           "A comprehensive visual identity for a modern tech startup, including logo, color palette, and guidelines.",
-        image: "projects/sample-project-image.svg",
-        alt: "",
+        image: "/projects/sample-project-image.svg",
+        alt: "Media and content project preview",
       },
     ],
   },
