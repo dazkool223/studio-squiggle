@@ -12,7 +12,10 @@ export interface WorkCategory {
   label: string;
   /** Big panel behind the project grid */
   panelClass: string;
-  /** Folder-tab chip — fixed per Figma Desktop-25…28, independent of panel */
+  /** The file's color (CSS value) — drives both the SVG tab and the panel so
+      the active tab reads as the top of its own folder. */
+  color: string;
+  /** Text color class for the tab label */
   tabClass: string;
   /** Rounded card behind each project image */
   cardClass: string;
@@ -41,7 +44,8 @@ export const workCategories: WorkCategory[] = [
     id: "visual-design",
     label: "Visual Design",
     panelClass: "bg-portfolio-blue",
-    tabClass: "bg-tab-yellow text-foreground",
+    color: "var(--portfolio-blue)",
+    tabClass: "text-foreground",
     cardClass: "bg-portfolio-pink",
     projects: makeProjects("vd", 6),
   },
@@ -49,7 +53,8 @@ export const workCategories: WorkCategory[] = [
     id: "creative-design",
     label: "Creative Design",
     panelClass: "bg-portfolio-pink",
-    tabClass: "bg-tab-orange text-foreground",
+    color: "var(--portfolio-pink)",
+    tabClass: "text-foreground",
     cardClass: "bg-portfolio-yellow",
     projects: makeProjects("cd", 4),
   },
@@ -57,7 +62,8 @@ export const workCategories: WorkCategory[] = [
     id: "uiux-design",
     label: "UI/UX Design",
     panelClass: "bg-portfolio-yellow",
-    tabClass: "bg-tab-cream text-foreground",
+    color: "var(--portfolio-yellow)",
+    tabClass: "text-foreground",
     cardClass: "bg-portfolio-pink",
     projects: makeProjects("ux", 4),
   },
@@ -65,7 +71,8 @@ export const workCategories: WorkCategory[] = [
     id: "media-content",
     label: "Media+Content",
     panelClass: "bg-portfolio-purple",
-    tabClass: "bg-tab-magenta text-portfolio-cream",
+    color: "var(--portfolio-purple)",
+    tabClass: "text-foreground",
     cardClass: "bg-portfolio-yellow",
     projects: makeProjects("mc", 4),
   },

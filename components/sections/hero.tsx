@@ -21,7 +21,7 @@ export const Hero = () => {
 
       tl.from(".hero-logo", { y: -40, opacity: 0, duration: 0.6 })
         .from(
-          ".hero-whistle",
+          ".hero-whistle, .hero-character",
           { scale: 0.6, rotation: -12, opacity: 0, duration: 0.8, ease: "back.out(1.6)" },
           "-=0.3",
         )
@@ -33,8 +33,8 @@ export const Hero = () => {
           "-=0.15",
         );
 
-      // Idle float once the whistle has popped in
-      gsap.to(".hero-whistle", {
+      // Idle float once the character has popped in
+      gsap.to(".hero-whistle, .hero-character", {
         y: -12,
         rotation: 2,
         duration: 2.4,
@@ -67,33 +67,34 @@ export const Hero = () => {
           />
         </svg>
 
-        <div className="px-6 lg:px-14 lg:pr-24 min-h-svh flex flex-col">
-          <div className="flex justify-center lg:justify-start pt-8 lg:pt-10">
+        {/* ---------- Desktop / tablet ---------- */}
+        <div className="hidden lg:flex px-14 pr-24 min-h-svh flex-col">
+          <div className="flex justify-start pt-10">
             <Image
               src="/logo.svg"
               alt="Studio.Squiggle"
               width={284}
               height={93}
               priority
-              className="hero-logo h-12 lg:h-16 w-auto"
+              className="hero-logo h-16 w-auto"
             />
           </div>
 
-          <div className="flex flex-1 flex-col lg:flex-row items-center lg:justify-between gap-8 max-w-6xl w-full mx-auto py-10 lg:py-0">
-            <div className="flex flex-col items-center lg:items-start text-center lg:text-left order-2 lg:order-1">
-              <h1 className="font-light text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-tight">
+          <div className="flex flex-1 flex-row items-center justify-between gap-8 max-w-6xl w-full mx-auto">
+            <div className="flex flex-col items-start text-left">
+              <h1 className="font-light text-6xl xl:text-7xl leading-tight">
                 <span className="hero-line block">For the weird</span>
                 <span className="hero-line block font-bold">By the weird</span>
               </h1>
-              <div className="hero-sub font-serif font-light mt-5 lg:mt-8 text-xs md:text-sm lg:text-base">
+              <div className="hero-sub font-serif font-light mt-8 text-base">
                 <p>We help brands embrace their own kind of weird.</p>
                 <p>Carefully built identities, illustrated with intention.</p>
               </div>
               {/* Wrapper keeps GSAP off the link's own CSS transition */}
-              <div className="hero-cta mt-8 lg:mt-12">
+              <div className="hero-cta mt-12">
                 <a
                   href="#contact"
-                  className="wiggle-on-hover inline-block font-serif font-light text-xs md:text-sm uppercase tracking-wider border border-foreground rounded-full px-6 py-3 transition-colors hover:bg-foreground hover:text-portfolio-yellow"
+                  className="wiggle-on-hover inline-block font-serif font-light text-sm uppercase tracking-wider border border-foreground rounded-full px-6 py-3 transition-colors hover:bg-foreground hover:text-portfolio-yellow"
                 >
                   Book a meeting with us
                 </a>
@@ -106,8 +107,49 @@ export const Hero = () => {
               width={302}
               height={377}
               priority
-              className="hero-whistle h-64 md:h-80 lg:h-105 w-auto order-1 lg:order-2"
+              className="hero-whistle h-105 w-auto"
             />
+          </div>
+        </div>
+
+        {/* ---------- Mobile (Figma "home page"): plain yellow, small wordmark
+            top-left, a single doodle character and the headline + CTA stacked
+            and centered ---------- */}
+        <div className="lg:hidden flex min-h-svh flex-col px-6 pb-12 pt-7">
+          <Image
+            src="/logo.svg"
+            alt="Studio.Squiggle"
+            width={284}
+            height={93}
+            priority
+            className="hero-logo h-8 w-auto self-start"
+          />
+
+          <div className="flex flex-1 flex-col items-center justify-center gap-5 text-center">
+            <Image
+              src="/squiggly-friends/friend-2.svg"
+              alt="A squiggly Studio.Squiggle character with flaming hair"
+              width={300}
+              height={360}
+              priority
+              className="hero-character h-48 w-auto sm:h-56"
+            />
+            <h1 className="font-light text-4xl leading-tight">
+              <span className="hero-line block">For the weird</span>
+              <span className="hero-line block font-bold">By the weird</span>
+            </h1>
+            <div className="hero-sub font-serif font-light text-xs max-w-xs">
+              <p>We help brands embrace their own kind of weird.</p>
+              <p>Carefully built identities, illustrated with intention.</p>
+            </div>
+            <div className="hero-cta mt-1">
+              <a
+                href="#contact"
+                className="wiggle-on-hover inline-block font-serif font-light text-xs uppercase tracking-wider border border-foreground rounded-full px-6 py-3 transition-colors hover:bg-foreground hover:text-portfolio-yellow"
+              >
+                Book a meeting with us
+              </a>
+            </div>
           </div>
         </div>
       </section>

@@ -10,12 +10,6 @@
   --portfolio-yellow: #ffd335;
   --portfolio-purple: #c955ff;
 
-  /* Folder-tab chip colors (Our Work, Desktop-25…28) */
-  --tab-yellow: #ffd335;
-  --tab-orange: #ff8a4c;
-  --tab-cream: #fff8dd;
-  --tab-magenta: #e14ec8;
-
   --background: var(--portfolio-cream);
   --primary: var(--foreground);
   --primary-foreground: var(--portfolio-cream);
@@ -39,10 +33,6 @@
   --color-portfolio-pink: var(--portfolio-pink);
   --color-portfolio-yellow: var(--portfolio-yellow);
   --color-portfolio-purple: var(--portfolio-purple);
-  --color-tab-yellow: var(--tab-yellow);
-  --color-tab-orange: var(--tab-orange);
-  --color-tab-cream: var(--tab-cream);
-  --color-tab-magenta: var(--tab-magenta);
 }
 
 @layer base {
@@ -102,14 +92,32 @@
   }
 }
 
-/* ---------- Shape helpers ---------- */
+/* ---------- Services wheel ---------- */
 
-/* Trapezoid folder tab (Our Work category chips) */
-.folder-tab {
-  mask: url(/tab-shape.svg);
-  mask-repeat: no-repeat;
-  mask-size: 100% 100%;
+/* Distance from the off-screen pivot to where each word starts, plus the
+   active/inactive font sizes. Tuned per breakpoint so the active word lands
+   in the slot beside the arrow. */
+.services-wheel {
+  --svc-radius: 96px;
+  --svc-size: 1.3rem;
+  --svc-size-active: 1.7rem;
 }
+@media (min-width: 768px) {
+  .services-wheel {
+    --svc-radius: 360px;
+    --svc-size: 2.25rem;
+    --svc-size-active: 3rem;
+  }
+}
+@media (min-width: 1280px) {
+  .services-wheel {
+    --svc-radius: 440px;
+    --svc-size: 2.75rem;
+    --svc-size-active: 3.75rem;
+  }
+}
+
+/* ---------- Shape helpers ---------- */
 
 /* Scalloped bottom edge — yellow hero melting into the cream page */
 .scalloped-bottom {

@@ -2,104 +2,159 @@
 
 import { useRef, useState } from "react";
 import { ArrowRight } from "lucide-react";
-import { gsap, useGSAP } from "@/lib/gsap";
+import { ScrollTrigger, useGSAP } from "@/lib/gsap";
 import { SERVICES } from "@/data/site";
 
-const WORD_COLORS = [
-  "text-portfolio-blue",
-  "text-portfolio-pink",
-  "text-foreground",
-  "text-portfolio-purple",
-] as const;
+// Angular gap between two neighbouring services on the wheel rim.
+const STEP = 17;
+// Total rotation the wheel sweeps from first → last service.
+const SWEEP = STEP * (SERVICES.length - 1);
 
-// Services: "We bring ideas to life through" + an auto-cycling word.
-// All services are also listed as sticker chips so nothing is hidden
-// behind the animation.
+// "What we offer" (Figma Desktop-43…46): the services sit on the rim of a big
+// wheel pivoting off the left edge. As you scroll, the section pins and the
+// wheel spins, bringing one service at a time into the slot beside the arrow.
+// The panel color morphs to match whichever service is active.
 export const Services = () => {
   const scope = useRef<HTMLElement>(null);
-  const wordRef = useRef<HTMLSpanElement>(null);
+  const wheelRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
 
   useGSAP(
     () => {
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      const wheel = wheelRef.current;
+      if (!wheel) return;
 
-      const swap = () => {
-        gsap
-          .timeline()
-          .to(wordRef.current, {
-            y: -24,
-            opacity: 0,
-            duration: 0.3,
-            ease: "power2.in",
-            onComplete: () => setActive((i) => (i + 1) % SERVICES.length),
-          })
-          .fromTo(
-            wordRef.current,
-            { y: 24, opacity: 0 },
-            { y: 0, opacity: 1, duration: 0.35, ease: "power2.out" },
-          );
-      };
+      const reduce = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
 
-      const interval = gsap.delayedCall(2.2, function repeat() {
-        swap();
-        interval.restart(true);
+      // Reduced motion: skip the pin/scrub, leave the middle service centered.
+      if (reduce) {
+        const mid = Math.floor(SERVICES.length / 2);
+        wheel.style.setProperty("--rot", `${-mid * STEP}deg`);
+        setActive(mid);
+        return;
+      }
+
+      const st = ScrollTrigger.create({
+        trigger: scope.current,
+        start: "top top",
+        end: () => "+=" + window.innerHeight * (SERVICES.length - 1),
+        pin: true,
+        scrub: 0.6,
+        onUpdate: (self) => {
+          const rot = -self.progress * SWEEP;
+          wheel.style.setProperty("--rot", `${rot}deg`);
+          const idx = Math.round(self.progress * (SERVICES.length - 1));
+          setActive((prev) => (prev === idx ? prev : idx));
+        },
       });
-      return () => {
-        interval.kill();
-      };
+
+      return () => st.kill();
     },
     { scope },
   );
 
-  useGSAP(
-    () => {
-      gsap.from(".service-chip", {
-        scale: 0,
-        opacity: 0,
-        duration: 0.45,
-        stagger: 0.06,
-        ease: "back.out(1.7)",
-        scrollTrigger: { trigger: ".service-chips", start: "top 85%" },
-      });
-    },
-    { scope },
-  );
+  const theme = SERVICES[active];
+  const fg = theme.dark ? "var(--portfolio-cream)" : "var(--foreground)";
+  const muted = theme.dark ? "rgba(255,248,221,0.32)" : "rgba(34,34,34,0.28)";
+
+  // Depth-of-field: the active word is in focus, every other word softens the
+  // further it sits from the active slot — blur grows and opacity drops with
+  // angular distance, so the wheel reads as a radial focus falloff.
+  const falloff = (i: number) => {
+    const d = Math.abs(i - active);
+    if (d === 0) return { opacity: 1, blur: 0 };
+    return {
+      opacity: Math.max(0.28, 0.78 - (d - 1) * 0.16),
+      blur: Math.min(8, d * 1.6),
+    };
+  };
 
   return (
     <section
       id="services"
       ref={scope}
-      className="scroll-mt-10 py-16 md:py-24 px-6"
+      className="services-wheel relative h-svh overflow-hidden scroll-mt-0 transition-colors duration-700"
+      style={
+        {
+          backgroundColor: theme.bg,
+          "--svc-fg": fg,
+          "--svc-muted": muted,
+        } as React.CSSProperties
+      }
     >
-      <div className="max-w-5xl mx-auto flex flex-col items-center text-center gap-10">
-        <div className="flex flex-col md:flex-row items-center gap-3 md:gap-6">
-          <p className="font-medium text-2xl md:text-3xl flex items-center gap-3">
-            We bring ideas to life through
-            <ArrowRight aria-hidden strokeWidth={1.5} className="hidden md:block h-8 w-8" />
-          </p>
-          <span
-            ref={wordRef}
-            aria-live="polite"
-            className={`inline-block font-bold text-4xl md:text-6xl whitespace-nowrap ${WORD_COLORS[active % WORD_COLORS.length]}`}
-          >
-            {SERVICES[active]}
-          </span>
-        </div>
+      {/* Section eyebrow */}
+      <span
+        className="absolute top-5 left-5 md:top-7 md:left-10 z-20 font-serif font-light text-xs md:text-sm uppercase tracking-widest"
+        style={{ color: "var(--svc-muted)" }}
+      >
+        What we offer
+      </span>
 
-        <ul className="service-chips flex flex-wrap justify-center gap-3 md:gap-4 max-w-3xl">
-          {SERVICES.map((service, index) => (
-            <li
-              key={service}
-              className={`service-chip font-serif font-light text-sm md:text-base border border-foreground rounded-full px-5 py-2 bg-portfolio-cream ${
-                index % 2 === 0 ? "rotate-1" : "-rotate-1"
-              } hover:rotate-0 transition-transform`}
-            >
-              {service}
-            </li>
-          ))}
-        </ul>
+      {/* The pitch — top-left on mobile, parked beside the active slot on
+          desktop where it stacks above the arrow. */}
+      <div className="absolute z-20 top-16 left-6 md:top-1/2 md:-translate-y-1/2 md:left-12 lg:left-20 max-w-[15rem] md:max-w-xs">
+        <p
+          className="font-bold text-xl md:text-2xl leading-snug"
+          style={{ color: "var(--svc-fg)" }}
+        >
+          We bring ideas
+          <br />
+          to life through
+        </p>
+        <ArrowRight
+          aria-hidden
+          strokeWidth={2}
+          className="hidden md:block mt-3 h-9 w-9"
+          style={{ color: "var(--svc-fg)" }}
+        />
       </div>
+
+      {/* Mobile arrow: sits centered at the left, pointing at the active word */}
+      <ArrowRight
+        aria-hidden
+        strokeWidth={2}
+        className="md:hidden absolute z-20 left-6 top-1/2 -translate-y-1/2 h-7 w-7"
+        style={{ color: "var(--svc-fg)" }}
+      />
+
+      {/* The wheel — pivot sits off the left edge, words fan out to the right */}
+      <div
+        ref={wheelRef}
+        className="services-pivot absolute left-0 top-1/2 h-0 w-0"
+        style={{ transform: "translateY(-50%) rotate(var(--rot, 0deg))" }}
+      >
+        {SERVICES.map((service, i) => {
+          const { opacity, blur } = falloff(i);
+          return (
+            <span
+              key={service.name}
+              aria-hidden
+              className="service-spoke absolute left-0 top-0 flex h-0 items-center whitespace-nowrap font-bold transition-[opacity,filter,font-size] duration-300"
+              style={{
+                transformOrigin: "left center",
+                transform: `rotate(${i * STEP}deg)`,
+                paddingLeft: "var(--svc-radius)",
+                color: "var(--svc-fg)",
+                fontSize:
+                  i === active ? "var(--svc-size-active)" : "var(--svc-size)",
+                opacity,
+                filter: blur ? `blur(${blur}px)` : "none",
+              }}
+            >
+              {service.name}
+            </span>
+          );
+        })}
+      </div>
+
+      {/* Accessible, non-visual list so the services aren't lost to the wheel */}
+      <ul className="sr-only">
+        {SERVICES.map((s) => (
+          <li key={s.name}>{s.name}</li>
+        ))}
+      </ul>
     </section>
   );
 };

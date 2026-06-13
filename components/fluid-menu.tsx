@@ -9,8 +9,10 @@ import { NAV_LINKS, INSTAGRAM_URL } from "@/data/site";
 // Wavy left edge of the desktop menu, morphed by GSAP as it opens —
 // the designer asked for the menu to slide out "fluidly smoothly"
 // as the cursor approaches the right edge.
-const CURVE_REST = "M64 0 L40 0 C20 150 56 260 40 400 C24 540 60 660 40 800 L64 800 Z";
-const CURVE_OPEN = "M64 0 L26 0 C-4 150 44 260 22 400 C0 540 48 660 26 800 L64 800 Z";
+const CURVE_REST =
+  "M 64 0 C 29 156 35 283 28 402 C 24 551 49 754 63 799 L 64 800 Z";
+const CURVE_OPEN =
+  "M 64 0 L 26 0 C -4 150 -2 271 -1 396 C 2 539 -3 623 30 799 L 64 800 Z";
 
 const MenuLinks = ({
   open,

@@ -3,8 +3,8 @@ import { DoodleWall } from "@/components/sections/doodle-wall";
 import { Hero } from "@/components/sections/hero";
 import { HowWeRoll } from "@/components/sections/how-we-roll";
 import { OurWork } from "@/components/sections/our-work";
-import { AboutUs } from "@/components/sections/about-us";
 import { Services } from "@/components/sections/services";
+import { AboutUs } from "@/components/sections/about-us";
 import { LetsConnect } from "@/components/sections/lets-connect";
 
 export default function Home() {
@@ -19,8 +19,8 @@ export default function Home() {
         <Hero />
         <HowWeRoll />
         <OurWork />
-        <AboutUs />
         <Services />
+        <AboutUs />
         <LetsConnect />
       </div>
     </main>
