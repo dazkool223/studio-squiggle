@@ -7,13 +7,19 @@ export interface Project {
   alt: string;
 }
 
-export interface PortfolioSection {
-  id: number;
+export interface WorkCategory {
+  id: string;
   label: string;
-  color: string;
+  /** Big panel behind the project grid */
+  panelClass: string;
+  /** Folder-tab chip — fixed per Figma Desktop-25…28, independent of panel */
+  tabClass: string;
+  /** Rounded card behind each project image */
+  cardClass: string;
   projects: Project[];
 }
 
+// TODO: replace sample projects with real portfolio entries
 const sampleImage = "/projects/sample-project-image.svg";
 const sampleBlurb =
   "A little about the project — bold, weird, and unmistakably theirs.";
@@ -30,29 +36,37 @@ const makeProjects = (prefix: string, count: number): Project[] =>
     alt: "Project preview",
   }));
 
-export const portfolioSections: PortfolioSection[] = [
+export const workCategories: WorkCategory[] = [
   {
-    id: 1,
+    id: "visual-design",
     label: "Visual Design",
-    color: "bg-portfolio-blue",
+    panelClass: "bg-portfolio-blue",
+    tabClass: "bg-tab-yellow text-foreground",
+    cardClass: "bg-portfolio-pink",
     projects: makeProjects("vd", 6),
   },
   {
-    id: 2,
+    id: "creative-design",
     label: "Creative Design",
-    color: "bg-portfolio-pink",
+    panelClass: "bg-portfolio-pink",
+    tabClass: "bg-tab-orange text-foreground",
+    cardClass: "bg-portfolio-yellow",
     projects: makeProjects("cd", 4),
   },
   {
-    id: 3,
+    id: "uiux-design",
     label: "UI/UX Design",
-    color: "bg-portfolio-yellow",
+    panelClass: "bg-portfolio-yellow",
+    tabClass: "bg-tab-cream text-foreground",
+    cardClass: "bg-portfolio-pink",
     projects: makeProjects("ux", 4),
   },
   {
-    id: 4,
+    id: "media-content",
     label: "Media+Content",
-    color: "bg-portfolio-purple",
+    panelClass: "bg-portfolio-purple",
+    tabClass: "bg-tab-magenta text-portfolio-cream",
+    cardClass: "bg-portfolio-yellow",
     projects: makeProjects("mc", 4),
   },
 ];

@@ -1,21 +1,28 @@
-import { AboutUs } from "@/components/about-us";
-import { Footer } from "@/components/footer";
-import { Hero } from "@/components/hero";
-import { FluidMenu } from "@/components/menu";
-import { Portfolio } from "@/components/portfolio";
-import { HowWeRollCarousel } from "@/components/roll/how-we-roll";
-import Services from "@/components/support/support";
+import { FluidMenu } from "@/components/fluid-menu";
+import { DoodleWall } from "@/components/sections/doodle-wall";
+import { Hero } from "@/components/sections/hero";
+import { HowWeRoll } from "@/components/sections/how-we-roll";
+import { OurWork } from "@/components/sections/our-work";
+import { AboutUs } from "@/components/sections/about-us";
+import { Services } from "@/components/sections/services";
+import { LetsConnect } from "@/components/sections/lets-connect";
 
 export default function Home() {
   return (
-    <main id="top" className="flex flex-col bg-portfolio-cream">
+    <main id="top">
       <FluidMenu />
-      <Hero />
-      <HowWeRollCarousel />
-      <Portfolio />
-      <AboutUs />
-      <Services />
-      <Footer />
+      {/* The doodle wall stays pinned at the top of the viewport;
+          everything below scrolls up and over it (per the Figma
+          "Scroll main page" prototype). */}
+      <DoodleWall />
+      <div className="relative z-10 bg-portfolio-cream">
+        <Hero />
+        <HowWeRoll />
+        <OurWork />
+        <AboutUs />
+        <Services />
+        <LetsConnect />
+      </div>
     </main>
   );
 }
