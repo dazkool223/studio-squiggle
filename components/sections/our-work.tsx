@@ -168,7 +168,7 @@ export const OurWork = () => {
                 >
                   <path d={tabPath(w)} fill={tab.color} />
                 </svg>
-                <span className="relative flex h-full items-center justify-center whitespace-nowrap px-6 pt-1 text-[11px] font-light sm:text-sm md:px-8 md:text-lg">
+                <span className="relative flex h-full items-center justify-center whitespace-nowrap px-2.5 pt-1 text-[10px] font-light sm:px-6 sm:text-sm md:px-8 md:text-lg">
                   {tab.label}
                 </span>
               </button>

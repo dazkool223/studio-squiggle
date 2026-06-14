@@ -44,7 +44,9 @@
   }
   body {
     @apply bg-background text-foreground font-sans;
-    overflow-x: hidden;
+    /* clip (not hidden) keeps the viewport the scroll container so the sticky
+       doodle wall still works, while preventing any sideways scroll on mobile */
+    overflow-x: clip;
   }
   ::selection {
     background: var(--portfolio-yellow);

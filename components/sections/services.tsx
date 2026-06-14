@@ -7,8 +7,24 @@ import { SERVICES } from "@/data/site";
 
 // Angular gap between two neighbouring services on the wheel rim.
 const STEP = 17;
-// Total rotation the wheel sweeps from first → last service.
-const SWEEP = STEP * (SERVICES.length - 1);
+const N = SERVICES.length;
+// Total rotation the wheel sweeps from first → last service (a single pass).
+const SWEEP = STEP * (N - 1);
+// How many viewport-heights of scroll the whole sweep takes. Lower = the wheel
+// spins more per scroll, so it feels quicker (the old value was ~1 per step,
+// which read as sluggish).
+const SCROLL_PER_STEP = 0.5;
+
+// The rim carries the services twice (so it never reads as empty), and the
+// active word sweeps through the MIDDLE of that doubled rim rather than its top
+// edge — so words flank the slot both above and below at every point of the
+// scroll, including the first and last service. A single scroll-through still
+// sweeps each service past the slot only once.
+const START = Math.floor(N / 2); // active word begins this many spokes in
+const SPOKES = Array.from({ length: N * 2 }, (_, k) => ({
+  service: SERVICES[(((k - START) % N) + N) % N],
+  angle: (k - START) * STEP,
+}));
 
 // "What we offer" (Figma Desktop-43…46): the services sit on the rim of a big
 // wheel pivoting off the left edge. As you scroll, the section pins and the
@@ -30,7 +46,7 @@ export const Services = () => {
 
       // Reduced motion: skip the pin/scrub, leave the middle service centered.
       if (reduce) {
-        const mid = Math.floor(SERVICES.length / 2);
+        const mid = Math.floor(N / 2);
         wheel.style.setProperty("--rot", `${-mid * STEP}deg`);
         setActive(mid);
         return;
@@ -39,13 +55,13 @@ export const Services = () => {
       const st = ScrollTrigger.create({
         trigger: scope.current,
         start: "top top",
-        end: () => "+=" + window.innerHeight * (SERVICES.length - 1),
+        end: () => "+=" + window.innerHeight * (N - 1) * SCROLL_PER_STEP,
         pin: true,
-        scrub: 0.6,
+        scrub: 0.5,
         onUpdate: (self) => {
           const rot = -self.progress * SWEEP;
           wheel.style.setProperty("--rot", `${rot}deg`);
-          const idx = Math.round(self.progress * (SERVICES.length - 1));
+          const idx = Math.round(self.progress * (N - 1));
           setActive((prev) => (prev === idx ? prev : idx));
         },
       });
@@ -59,15 +75,19 @@ export const Services = () => {
   const fg = theme.dark ? "var(--portfolio-cream)" : "var(--foreground)";
   const muted = theme.dark ? "rgba(255,248,221,0.32)" : "rgba(34,34,34,0.28)";
 
-  // Depth-of-field: the active word is in focus, every other word softens the
-  // further it sits from the active slot — blur grows and opacity drops with
-  // angular distance, so the wheel reads as a radial focus falloff.
-  const falloff = (i: number) => {
-    const d = Math.abs(i - active);
-    if (d === 0) return { opacity: 1, blur: 0 };
+  // Depth-of-field: the word sitting in the slot is in focus; every other word
+  // softens the further it sits from the slot — blur grows and opacity drops
+  // with angular distance, so the wheel reads as a radial focus falloff. The
+  // parked "fill" copy lives far from the slot, so it ghosts in faintly behind
+  // the lead copy and keeps the rim looking full.
+  const activeAngle = active * STEP;
+  const falloff = (angle: number) => {
+    const d = Math.abs(angle - activeAngle) / STEP; // distance in steps
+    if (d < 0.5) return { opacity: 1, blur: 0, isActive: true };
     return {
-      opacity: Math.max(0.28, 0.78 - (d - 1) * 0.16),
-      blur: Math.min(8, d * 1.6),
+      opacity: Math.max(0.22, 0.82 - d * 0.14),
+      blur: Math.min(9, d * 1.5),
+      isActive: false,
     };
   };
 
@@ -125,20 +145,21 @@ export const Services = () => {
         className="services-pivot absolute left-0 top-1/2 h-0 w-0"
         style={{ transform: "translateY(-50%) rotate(var(--rot, 0deg))" }}
       >
-        {SERVICES.map((service, i) => {
-          const { opacity, blur } = falloff(i);
+        {SPOKES.map(({ service, angle }, key) => {
+          const { opacity, blur, isActive } = falloff(angle);
           return (
             <span
-              key={service.name}
+              key={key}
               aria-hidden
               className="service-spoke absolute left-0 top-0 flex h-0 items-center whitespace-nowrap font-bold transition-[opacity,filter,font-size] duration-300"
               style={{
                 transformOrigin: "left center",
-                transform: `rotate(${i * STEP}deg)`,
+                transform: `rotate(${angle}deg)`,
                 paddingLeft: "var(--svc-radius)",
                 color: "var(--svc-fg)",
-                fontSize:
-                  i === active ? "var(--svc-size-active)" : "var(--svc-size)",
+                fontSize: isActive
+                  ? "var(--svc-size-active)"
+                  : "var(--svc-size)",
                 opacity,
                 filter: blur ? `blur(${blur}px)` : "none",
               }}

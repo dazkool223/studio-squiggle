@@ -137,7 +137,11 @@ export const AboutUs = () => {
   );
 
   return (
-    <div id="about" ref={scope} className="scroll-mt-10 py-12 md:py-16">
+    <div
+      id="about"
+      ref={scope}
+      className="scroll-mt-10 overflow-x-clip py-12 md:py-16"
+    >
       <section>
         <Image
           src={aboutTitle.src}
