@@ -53,20 +53,6 @@ export const Hero = () => {
         id="hero"
         className="relative bg-portfolio-yellow text-foreground overflow-hidden"
       >
-        {/* Cream wave eating into the yellow on the right (Desktop-14).
-            The fixed fluid-menu tab sits on top of it. */}
-        <svg
-          aria-hidden
-          viewBox="0 0 64 800"
-          preserveAspectRatio="none"
-          className="hidden lg:block absolute right-0 top-0 h-full w-16 text-portfolio-cream"
-        >
-          <path
-            d="M64 0 H34 C16 140 48 270 30 400 C12 530 50 660 30 800 H64 Z"
-            fill="currentColor"
-          />
-        </svg>
-
         {/* ---------- Desktop / tablet ---------- */}
         <div className="hidden lg:flex px-14 pr-24 min-h-svh flex-col">
           <div className="flex justify-start pt-10">
