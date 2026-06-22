@@ -44,8 +44,10 @@ export const DoodleWall = () => {
           fill
           priority
           sizes="100vw"
-          // Multiply blends the artwork's white background into the yellow wall
-          className="hidden lg:block object-cover object-center mix-blend-multiply"
+          // Multiply blends the artwork's white background into the yellow wall.
+          // contain (not cover) keeps the whole doodle wall in frame so no
+          // characters get cropped at the screen edges.
+          className="hidden lg:block object-contain object-center mix-blend-multiply"
         />
         {/* Mobile wall is a portrait grid of doodles with no logo — the pill
             below is overlaid on top of it (Figma mobile home page) */}
@@ -55,7 +57,7 @@ export const DoodleWall = () => {
           fill
           priority
           sizes="100vw"
-          className="lg:hidden object-cover object-center mix-blend-multiply"
+          className="lg:hidden object-contain object-center mix-blend-multiply"
         />
       </div>
 
@@ -67,7 +69,7 @@ export const DoodleWall = () => {
           width={285}
           height={113}
           priority
-          className="doodle-logo h-auto w-60 max-w-[72%] drop-shadow-[0_8px_24px_rgba(34,34,34,0.18)]"
+          className="doodle-logo h-auto w-60 max-w-[72%]"
         />
       </div>
 

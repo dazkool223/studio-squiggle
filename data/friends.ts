@@ -8,7 +8,8 @@ export const arrowBlue = "/about-us/arrow-blue.svg";
 
 export interface SquigglyFriend {
   name: string;
-  image: string;
+  /** Five pose illustrations, cycled every 2 s in the showcase. */
+  images: string[];
   reverse: boolean;
   attributes: { key: string; value: string }[];
 }
@@ -16,7 +17,13 @@ export interface SquigglyFriend {
 export const squigglyFriends: SquigglyFriend[] = [
   {
     name: "fork",
-    image: "/squiggly-friends/friend-1.svg",
+    images: [
+      "/squiggly-friends/fork-1.svg",
+      "/squiggly-friends/fork-2.svg",
+      "/squiggly-friends/fork-3.svg",
+      "/squiggly-friends/fork-4.svg",
+      "/squiggly-friends/fork-5.svg",
+    ],
     reverse: false,
     attributes: [
       { key: "species", value: "human (probably)" },
@@ -27,7 +34,13 @@ export const squigglyFriends: SquigglyFriend[] = [
   },
   {
     name: "blaze",
-    image: "/squiggly-friends/friend-2.svg",
+    images: [
+      "/squiggly-friends/blaze-1.svg",
+      "/squiggly-friends/blaze-2.svg",
+      "/squiggly-friends/blaze-3.svg",
+      "/squiggly-friends/blaze-4.svg",
+      "/squiggly-friends/blaze-5.svg",
+    ],
     reverse: true,
     attributes: [
       { key: "species", value: "hot head" },

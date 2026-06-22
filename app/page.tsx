@@ -20,8 +20,8 @@ export default function Home() {
         <HowWeRoll />
         <OurWork />
         <Services />
-        <AboutUs />
         <LetsConnect />
+        <AboutUs />
       </div>
     </main>
   );

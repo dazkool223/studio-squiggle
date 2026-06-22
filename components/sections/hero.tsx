@@ -113,10 +113,10 @@ export const Hero = () => {
 
           <div className="flex flex-1 flex-col items-center justify-center gap-5 text-center">
             <Image
-              src="/squiggly-friends/friend-2.svg"
-              alt="A squiggly Studio.Squiggle character with flaming hair"
-              width={300}
-              height={360}
+              src="/hero-whistle.svg"
+              alt="A squiggly character blowing a whistle"
+              width={302}
+              height={377}
               priority
               className="hero-character h-48 w-auto sm:h-56"
             />

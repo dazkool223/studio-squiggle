@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { gsap, useGSAP } from "@/lib/gsap";
 import {
@@ -10,7 +10,6 @@ import {
   sayeePhoto1,
   sayeePhoto2,
   squigglyFriends,
-  SquigglyFriend,
 } from "@/data/friends";
 
 const Polaroid = ({ image, alt }: { image: string; alt: string }) => (
@@ -27,38 +26,232 @@ const Polaroid = ({ image, alt }: { image: string; alt: string }) => (
   </div>
 );
 
-const FriendCard = ({ friend }: { friend: SquigglyFriend }) => (
-  <div className="squiggly-friend">
-    <p className="md:hidden text-center lowercase font-light text-3xl">
-      {friend.name}
-    </p>
-    <div className="grid grid-cols-1 md:grid-cols-2 items-center">
-      <Image
-        src={friend.image}
-        alt={friend.name}
-        width={256}
-        height={256}
-        className={`friend-image justify-self-center w-50 md:w-64 ${
-          friend.reverse ? "md:order-last" : ""
-        }`}
-      />
-      <div className="friend-card flex flex-col gap-2 m-10 text-lg md:text-xl font-serif font-light">
-        <p className="lowercase font-sans font-light text-3xl hidden md:block">
-          {friend.name}
-        </p>
-        {friend.attributes.map((attribute) => (
-          <p key={attribute.key}>
-            <span className="font-bold">{attribute.key}: </span>
-            {attribute.value}
-          </p>
+// Shows one character at a time.  The pose illustration cycles every 2 s
+// with a pop-in/out GSAP animation; the pill tabs switch characters with a
+// slide-out/in card animation.
+const FriendsShowcase = () => {
+  const scope = useRef<HTMLDivElement>(null);
+  const [activeFriend, setActiveFriend] = useState(0);
+  const [activePose, setActivePose] = useState(0);
+  const activeFriendRef = useRef(0);
+  const activePoseRef = useRef(0);
+  const animatingRef = useRef(false);
+
+  // Initial card entrance on scroll
+  useGSAP(
+    () => {
+      gsap.from(".friend-showcase-card", {
+        y: 36,
+        opacity: 0,
+        scale: 0.93,
+        duration: 0.6,
+        ease: "back.out(1.4)",
+        scrollTrigger: { trigger: scope.current, start: "top 80%" },
+      });
+    },
+    { scope },
+  );
+
+  // Animate ALL .friend-doodle images in after a pose/friend state update.
+  // (There are two in the DOM — one for desktop, one for mobile.)
+  const animateDoodleIn = useCallback(() => {
+    requestAnimationFrame(() => {
+      if (!scope.current) {
+        animatingRef.current = false;
+        return;
+      }
+      const doodles = scope.current.querySelectorAll(".friend-doodle");
+      if (!doodles.length) {
+        animatingRef.current = false;
+        return;
+      }
+      gsap.fromTo(
+        doodles,
+        { scale: 0.75, opacity: 0, rotation: -8 },
+        {
+          scale: 1,
+          opacity: 1,
+          rotation: 0,
+          duration: 0.42,
+          ease: "back.out(1.8)",
+          onComplete: () => {
+            animatingRef.current = false;
+          },
+        },
+      );
+    });
+  }, []);
+
+  // Swap to the next pose illustration (image-only animation)
+  const cyclePose = useCallback(() => {
+    if (animatingRef.current) return;
+    animatingRef.current = true;
+    if (!scope.current) {
+      animatingRef.current = false;
+      return;
+    }
+    const doodles = scope.current.querySelectorAll(".friend-doodle");
+    const poseCount = squigglyFriends[activeFriendRef.current].images.length;
+    const next = (activePoseRef.current + 1) % poseCount;
+    if (!doodles.length) {
+      setActivePose(next);
+      activePoseRef.current = next;
+      animatingRef.current = false;
+      return;
+    }
+    gsap.to(doodles, {
+      scale: 0.75,
+      opacity: 0,
+      rotation: 8,
+      duration: 0.28,
+      ease: "power2.in",
+      onComplete: () => {
+        setActivePose(next);
+        activePoseRef.current = next;
+        animateDoodleIn();
+      },
+    });
+  }, [animateDoodleIn]);
+
+  // Auto-cycle poses every 2 s
+  useEffect(() => {
+    const id = setInterval(cyclePose, 2000);
+    return () => clearInterval(id);
+  }, [cyclePose]);
+
+  // Switch between Fork and Blaze (full card slide-out/in)
+  const switchFriend = useCallback(
+    (idx: number) => {
+      if (idx === activeFriendRef.current || animatingRef.current) return;
+      animatingRef.current = true;
+      const card = scope.current?.querySelector(
+        ".friend-showcase-card",
+      ) as HTMLElement | null;
+      const doSwitch = () => {
+        setActiveFriend(idx);
+        setActivePose(0);
+        activeFriendRef.current = idx;
+        activePoseRef.current = 0;
+        requestAnimationFrame(() => {
+          const newCard = scope.current?.querySelector(
+            ".friend-showcase-card",
+          ) as HTMLElement | null;
+          if (!newCard) {
+            animatingRef.current = false;
+            return;
+          }
+          gsap.fromTo(
+            newCard,
+            { y: 36, opacity: 0, scale: 0.93 },
+            {
+              y: 0,
+              opacity: 1,
+              scale: 1,
+              duration: 0.5,
+              ease: "back.out(1.4)",
+              onComplete: () => {
+                animatingRef.current = false;
+              },
+            },
+          );
+        });
+      };
+      if (!card) {
+        doSwitch();
+        return;
+      }
+      gsap.to(card, {
+        y: -28,
+        opacity: 0,
+        scale: 0.93,
+        duration: 0.32,
+        ease: "power2.in",
+        onComplete: doSwitch,
+      });
+    },
+    [],
+  );
+
+  const friend = squigglyFriends[activeFriend];
+
+  return (
+    <div ref={scope} className="mt-6">
+      {/* Pill tabs */}
+      <div className="flex justify-center gap-3 mb-10 md:mb-14">
+        {squigglyFriends.map((f, i) => (
+          <button
+            key={f.name}
+            type="button"
+            onClick={() => switchFriend(i)}
+            className={`cursor-pointer rounded-full px-8 py-2 font-serif text-sm uppercase tracking-widest border transition-colors duration-300 ${
+              i === activeFriend
+                ? "bg-foreground text-portfolio-cream border-foreground"
+                : "bg-transparent text-foreground border-foreground/40 hover:border-foreground"
+            }`}
+          >
+            {f.name}
+          </button>
         ))}
       </div>
-    </div>
-  </div>
-);
 
-// About Us: scrapbook collage of Sayee with hand-drawn arrows and
-// labels, a short bio, then the Squiggly Friends character sheets.
+      {/* Character card — one friend at a time */}
+      <div className="friend-showcase-card max-w-5xl mx-auto">
+        {/* ── Desktop ── */}
+        <div className="hidden md:grid md:grid-cols-2 gap-16 items-center px-8">
+          <div
+            className={`flex flex-col items-center gap-4 ${
+              friend.reverse ? "md:order-last" : ""
+            }`}
+          >
+            <Image
+              src={friend.images[activePose]}
+              alt={friend.name}
+              width={256}
+              height={320}
+              className="friend-doodle w-52 h-auto"
+            />
+            <p className="text-3xl font-light lowercase">{friend.name}</p>
+          </div>
+          <div className={`${friend.reverse ? "md:order-first" : ""}`}>
+            <p className="font-serif text-sm font-light text-foreground/50 lowercase mb-4">
+              {friend.name}
+            </p>
+            <div className="space-y-3 font-serif font-light text-xl">
+              {friend.attributes.map((a) => (
+                <p key={a.key}>
+                  <span className="font-bold">{a.key}: </span>
+                  {a.value}
+                </p>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* ── Mobile ── */}
+        <div className="md:hidden flex flex-col items-center gap-4 px-6">
+          <Image
+            src={friend.images[activePose]}
+            alt={friend.name}
+            width={256}
+            height={320}
+            className="friend-doodle h-52 w-auto"
+          />
+          <p className="text-2xl font-light lowercase">{friend.name}</p>
+          <div className="text-left space-y-2 font-serif font-light text-lg w-full max-w-xs">
+            {friend.attributes.map((a) => (
+              <p key={a.key}>
+                <span className="font-bold">{a.key}: </span>
+                {a.value}
+              </p>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// About Us: Sayee's scrapbook collage + bio, then cycling Squiggly Friends.
 export const AboutUs = () => {
   const scope = useRef<HTMLDivElement>(null);
 
@@ -115,23 +308,6 @@ export const AboutUs = () => {
         ease: "power3.out",
         scrollTrigger: { trigger: ".friends-title", start: "top 85%" },
       });
-      gsap.utils.toArray<HTMLElement>(".squiggly-friend").forEach((friend, i) => {
-        const fromLeft = i % 2 === 0;
-        gsap.from(friend.querySelector(".friend-image"), {
-          x: fromLeft ? -80 : 80,
-          opacity: 0,
-          duration: 0.8,
-          ease: "power3.out",
-          scrollTrigger: { trigger: friend, start: "top 75%" },
-        });
-        gsap.from(friend.querySelector(".friend-card"), {
-          x: fromLeft ? 80 : -80,
-          opacity: 0,
-          duration: 0.8,
-          ease: "power3.out",
-          scrollTrigger: { trigger: friend, start: "top 75%" },
-        });
-      });
     },
     { scope },
   );
@@ -151,9 +327,7 @@ export const AboutUs = () => {
           className="about-title w-full max-w-md md:max-w-xl mx-auto px-6 h-auto"
         />
         <div className="grid grid-cols-1 md:grid-cols-2 mt-10 max-w-6xl mx-auto items-center">
-          {/* Percentage-positioned collage inside a square so the
-              composition holds at every viewport width */}
-          <div className="about-collage relative w-full max-w-sm md:max-w-md mx-auto aspect-square my-6 px-2">
+          <div className="about-collage relative w-[88%] max-w-sm md:w-full md:max-w-md mx-auto aspect-square my-6 px-2">
             <div className="about-polaroid-1 absolute left-[7%] top-0 w-[42%] -rotate-6">
               <Polaroid image={sayeePhoto1.src} alt={sayeePhoto1.alt} />
             </div>
@@ -207,11 +381,7 @@ export const AboutUs = () => {
         <h2 className="friends-title text-center text-4xl md:text-5xl font-light">
           Squiggly Friends
         </h2>
-        <div className="flex flex-col gap-10 mt-6">
-          {squigglyFriends.map((friend) => (
-            <FriendCard key={friend.name} friend={friend} />
-          ))}
-        </div>
+        <FriendsShowcase />
       </section>
     </div>
   );
