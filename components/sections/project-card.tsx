@@ -1,26 +1,23 @@
 import Image from "next/image";
+import Link from "next/link";
 import { Project } from "@/data/projects";
 
 interface ProjectCardProps {
   project: Project;
   /** Colored card behind the artwork, varies per category */
   cardClass: string;
-  onOpen: () => void;
 }
 
 // Project card per the Our Work frames: artwork on a colored rounded
-// card, title and blurb below. Clicking anywhere opens the detail view.
-export const ProjectCard = ({ project, cardClass, onOpen }: ProjectCardProps) => (
-  <button
-    type="button"
-    onClick={onOpen}
-    className="group w-full text-left cursor-pointer"
-  >
+// card, title and blurb below. The whole card links to the project's
+// detail page (/work/<slug>).
+export const ProjectCard = ({ project, cardClass }: ProjectCardProps) => (
+  <Link href={`/work/${project.slug}`} className="group block w-full text-left">
     <div
       className={`${cardClass} relative w-full aspect-[4/3] overflow-hidden rounded-2xl transition-transform duration-300 group-hover:-rotate-1 group-hover:scale-[1.02]`}
     >
       <Image
-        src={project.image}
+        src={project.thumbnail}
         alt={project.alt}
         fill
         className="object-cover"
@@ -33,5 +30,5 @@ export const ProjectCard = ({ project, cardClass, onOpen }: ProjectCardProps) =>
     <p className="text-portfolio-cream/85 font-serif font-light text-xs md:text-sm mt-1">
       {project.description}
     </p>
-  </button>
+  </Link>
 );

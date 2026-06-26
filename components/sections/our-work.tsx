@@ -2,9 +2,8 @@
 
 import { useLayoutEffect, useRef, useState } from "react";
 import { gsap, useGSAP } from "@/lib/gsap";
-import { workCategories, Project } from "@/data/projects";
+import { workCategories } from "@/data/projects";
 import { ProjectCard } from "./project-card";
-import { ProjectDetail } from "./project-detail";
 
 const INITIAL_VISIBLE = 4;
 
@@ -44,7 +43,6 @@ export const OurWork = () => {
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const [tabWidths, setTabWidths] = useState<number[]>([]);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [openProject, setOpenProject] = useState<Project | null>(null);
   const [showAll, setShowAll] = useState(false);
 
   // Measure each tab so the SVG path can be drawn to its exact width.
@@ -60,7 +58,6 @@ export const OurWork = () => {
 
   const selectCategory = (index: number) => {
     setActiveIndex(index);
-    setOpenProject(null);
     setShowAll(false);
   };
 
@@ -89,22 +86,6 @@ export const OurWork = () => {
       });
     },
     { scope, dependencies: [activeIndex, showAll] },
-  );
-
-  useGSAP(
-    () => {
-      if (!openProject) return;
-      gsap.from(".project-detail", {
-        y: 40,
-        opacity: 0,
-        duration: 0.5,
-        ease: "power3.out",
-      });
-      document
-        .querySelector(".project-detail")
-        ?.scrollIntoView({ behavior: "smooth", block: "nearest" });
-    },
-    { scope, dependencies: [openProject] },
   );
 
   const category = workCategories[activeIndex];
@@ -190,20 +171,11 @@ export const OurWork = () => {
                 <div key={project.id} className="work-project">
                   <ProjectCard
                     project={project}
-                    cardClass={category.cardClass}
-                    onOpen={() => setOpenProject(project)}
+                    cardClass="bg-white"
                   />
                 </div>
               ))}
             </div>
-
-            {openProject && (
-              <ProjectDetail
-                project={openProject}
-                category={category.label}
-                onClose={() => setOpenProject(null)}
-              />
-            )}
 
             {!showAll && category.projects.length > INITIAL_VISIBLE && (
               <div className="mt-8 flex justify-end">
