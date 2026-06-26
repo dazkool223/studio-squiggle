@@ -42,7 +42,7 @@ const Block = ({ block }: { block: ContentBlock }) => {
     case "image":
       return (
         <figure>
-          <div className="w-full overflow-hidden rounded-2xl bg-[#f5f5f0]">
+          <div className="w-full overflow-hidden rounded-2xl bg-white">
             <Image
               src={block.src}
               alt={block.alt}
@@ -66,7 +66,7 @@ const Block = ({ block }: { block: ContentBlock }) => {
           {block.images.map((img, i) => (
             <div
               key={i}
-              className="w-full overflow-hidden rounded-xl bg-[#f5f5f0]"
+              className="w-full overflow-hidden rounded-xl bg-white"
             >
               <Image
                 src={img.src}
@@ -176,7 +176,7 @@ const Block = ({ block }: { block: ContentBlock }) => {
         </div>
       );
       const imgCol = (
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-center rounded-2xl bg-white overflow-hidden">
           <Image
             src={block.src}
             alt={block.alt}
