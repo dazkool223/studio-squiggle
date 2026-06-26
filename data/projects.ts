@@ -128,6 +128,9 @@ const makeProjects = (prefix: string, count: number): Project[] =>
 
 const p = (path: string) => `/projects/they-see-me-rolling/${path}`;
 const s = (path: string) => `/projects/seafoam/${path}`;
+const b = (path: string) => `/projects/blinkit-bingo/${path}`;
+const f = (path: string) => `/projects/funky-dogs/${path}`;
+const r = (path: string) => `/projects/raw-stickers/${path}`;
 
 const visualDesignProjects: Project[] = [
   // ── Rolling Rice — first fully-authored project ──────────────────────────
@@ -386,6 +389,141 @@ const visualDesignProjects: Project[] = [
   },
 ];
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Creative Design projects
+// ─────────────────────────────────────────────────────────────────────────────
+
+const creativeDesignProjects: Project[] = [
+  // ── Blinkit Bingo ─────────────────────────────────────────────────────────
+  {
+    id: "cd-1",
+    slug: "blinkit-bingo",
+    title: "Blinkit Bingo",
+    subtitle: "Navratri Bingo",
+    description:
+      "A festive Navratri-themed bag illustration for Blinkit, turning everyday grocery packaging into an interactive bingo experience.",
+    thumbnail: b("blinkit-thumbnail.png"),
+    heroImage: b("blinkit-banner.png"),
+    alt: "Blinkit Navratri Bingo bag illustration",
+    scope: ["Creative Design", "Merch and Print Design", "Illustration"],
+    year: 2025,
+    about:
+      "This Blinkit bag illustration was created as a festive Navratri-themed experience, transforming everyday grocery packaging into an interactive celebration. Inspired by the energy and traditions of Navratri, the design features a playful bingo game filled with festive activities, making the bag both interactive and memorable while encouraging users to connect with the spirit of the festival.",
+    content: [
+      {
+        type: "text",
+        text: "Designed for Blinkit's Navratri campaign, the illustration wraps their iconic yellow grocery bag in a festive bingo card. Each square captures a classic Navratri moment — from garba nights and dandiya to festive outfits and street food — inviting customers to check off their celebrations as they shop.",
+      },
+      {
+        type: "image",
+        src: b("blinkit-bingo.png"),
+        alt: "Blinkit Navratri Bingo — full bag illustration",
+      },
+      {
+        type: "fullBleed",
+        src: b("blinkit-banner.png"),
+        alt: "Blinkit Navratri festive spread",
+      },
+    ],
+  },
+  // ── Funky Dogs ────────────────────────────────────────────────────────────
+  {
+    id: "cd-2",
+    slug: "funky-dogs",
+    title: "Funky Dogs",
+    subtitle: "Awesome doggos",
+    description:
+      "A series of bold, personality-packed dog illustrations — each one stylish, silly, and unmistakably funky.",
+    thumbnail: f("funky-dogs-banner-image.png"),
+    heroImage: f("funky-dogs-banner-image.png"),
+    alt: "Funky Dogs illustration series",
+    scope: ["Illustration", "Creative Design"],
+    year: 2025,
+    about:
+      "Funky Dogs is a series of vibrant, character-driven illustrations celebrating dogs with big personalities. Each piece captures a different mood and aesthetic — from glamorous to goofy — rendered in a bold, graphic style that's equal parts playful and polished.",
+    content: [
+      // ── Illustration grid ──────────────────────────────────────────────
+      {
+        type: "image",
+        src: f("funky-dogs-illustration-group.png"),
+        alt: "Funky Dogs — full illustration collection",
+      },
+      // ── Individual illustrations ───────────────────────────────────────
+      { type: "heading", text: "The Collection" },
+      { type: "image", src: f("Diamond  1.png"), alt: "Diamond Dog" },
+      { type: "image", src: f("francy dog 1.png"), alt: "Francy Dog" },
+      { type: "image", src: f("Chill time  1.png"), alt: "Chill Time" },
+      { type: "image", src: f("heart eyes 1.png"), alt: "Heart Eyes" },
+      { type: "image", src: f("Star goggles dog 1.png"), alt: "Star Goggles Dog" },
+      { type: "image", src: f("PUPPY-CHINO 1.png"), alt: "Puppy-chino" },
+      { type: "image", src: f("doughnut doggy 2 1.png"), alt: "Doughnut Doggy" },
+      { type: "image", src: f("FLOWER DOG 1.png"), alt: "Flower Dog" },
+    ],
+  },
+  // ── Raw Stickers ───────────────────────────────────────────────────────────
+  {
+    id: "cd-3",
+    slug: "raw-stickers",
+    title: "Raw Stickers",
+    subtitle: "Bike Sticker Design",
+    description:
+      "A bold collection of biker-inspired sticker designs that capture humor, attitude, and individuality through expressive illustrations.",
+    thumbnail: r("raw-stickers-banner.png"),
+    heroImage: r("raw-stickers-banner.png"),
+    alt: "Raw Stickers — bike sticker design collection",
+    scope: ["Creative Design", "Illustration", "Merch and Print Design"],
+    year: 2024,
+    about:
+      "A bold collection of biker-inspired sticker designs that capture humor, attitude, and individuality through expressive illustrations. Created during a graphic design internship, the project explores merchandise design using limited color palettes, strong contrasts, and print-ready visuals tailored for screen printing and reflective materials.",
+    content: [
+      // ── Project Brief ──────────────────────────────────────────────────
+      { type: "heading", text: "Project Brief" },
+      {
+        type: "text",
+        text: "A bold and expressive collection of 3×3 inch stickers designed for bikers — blending attitude, humor, and identity into compact, punchy visuals. Each sticker uses bold lines, limited color palettes, and strong contrast to ensure visibility and punch. Leaning into biker language, sarcasm, and pop-culture nods, the designs feel personal, relatable, and collectible.",
+      },
+      // ── Themes ────────────────────────────────────────────────────────
+      { type: "heading", text: "Themes" },
+      {
+        type: "text",
+        text: "Identity & Pride: Hello I'm a Biker, Riders Reserve — Humor & Sass: Eat Dust Hotline, Skidmarks Are My Signature — Everyday Mood: Ride On / World Off, Serial Chiller — Fantasy Meets Fuel: Saturn Your Throttle, Go Out Explore.",
+      },
+      // ── Sticker Gallery ────────────────────────────────────────────────
+      { type: "heading", text: "The Stickers" },
+      {
+        type: "gallery",
+        columns: 3,
+        images: [
+          { src: r("raw-stickers-1.png"), alt: "Turbo Ducky sticker" },
+          { src: r("raw-stickers-2.png"), alt: "Raw sticker 2" },
+          { src: r("raw-stickers-3.png"), alt: "Raw sticker 3" },
+          { src: r("raw-stickers-4.png"), alt: "Raw sticker 4" },
+          { src: r("raw-stickers-5.png"), alt: "Raw sticker 5" },
+          { src: r("raw-stickers-6.png"), alt: "Raw sticker 6" },
+          { src: r("raw-stickers-7.png"), alt: "Saturn Your Throttle sticker" },
+          { src: r("raw-stickers-8.png"), alt: "Raw sticker 8" },
+          { src: r("raw-stickers-9.png"), alt: "Raw sticker 9" },
+          { src: r("raw-stickers-10.png"), alt: "Raw sticker 10" },
+          { src: r("raw-stickers-11.png"), alt: "Raw sticker 11" },
+          { src: r("raw-stickers-12.png"), alt: "Raw sticker 12" },
+          { src: r("raw-stickers-13.png"), alt: "Raw sticker 13" },
+          { src: r("raw-stickers-14.png"), alt: "Raw sticker 14" },
+          { src: r("raw-stickers-15.png"), alt: "Raw sticker 15" },
+        ],
+      },
+      // ── Section & Footer ───────────────────────────────────────────────
+      { type: "fullBleed", src: r("raw-stickers-section.png"), alt: "Raw Stickers in context" },
+      { type: "fullBleed", src: r("raw-stickers-footer.png"), alt: "Raw Stickers — footer" },
+    ],
+  },
+  // ── Placeholder entries ────────────────────────────────────────────────────
+  ...makeProjects("cd", 1).map((proj, i) => ({
+    ...proj,
+    id: `cd-${i + 4}`,
+    slug: `cd-project-${i + 4}`,
+  })),
+];
+
 export const workCategories: WorkCategory[] = [
   {
     id: "visual-design",
@@ -403,7 +541,7 @@ export const workCategories: WorkCategory[] = [
     color: "var(--portfolio-pink)",
     tabClass: "text-foreground",
     cardClass: "bg-portfolio-yellow",
-    projects: makeProjects("cd", 4),
+    projects: creativeDesignProjects,
   },
   {
     id: "uiux-design",
